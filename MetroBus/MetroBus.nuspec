@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>MetroBus</id>
+    <version>$version$</version>
+    <title>MetroBus</title>
+    <authors>Gökhan Gökalp</authors>
+    <owners>Gökhan Gökalp</owners>
+    <projectUrl>https://github.com/GokGokalp/MetroBus</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Lightweight messaging wrapper of MassTransit</description>
+    <copyright>Copyright 2017 Gökhan Gökalp</copyright>
+    <tags>MassTransit, RabbitMQ, Messaging, Publish Subscribe, Request/Response</tags>
+    <dependencies>
+      <dependency id="MassTransit.RabbitMQ" version="3.5.5" />
+    </dependencies>
+  </metadata>
+    <files>
+    <file src="bin\Release\MetroBus.dll" exclude="bin\Release\*.dll.config" target="lib\net461\MetroBus.dll" />
+  </files>
+</package>

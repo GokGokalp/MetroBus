@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBus", "MetroBus\MetroBus.csproj", "{9705D194-5B85-4BA1-8E9A-089B68612E90}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E4A56D09-350F-4A31-8D11-9DE764222AAC}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{6C09B441-6B06-4843-93F0-BC4C45A85526}"
+	ProjectSection(SolutionItems) = preProject
+		misc\metrobus-logo.png = misc\metrobus-logo.png
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBus.Tests", "MetroBus.Tests\MetroBus.Tests.csproj", "{B4E56C04-E938-46E2-8034-FB5C6E7ED925}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9705D194-5B85-4BA1-8E9A-089B68612E90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9705D194-5B85-4BA1-8E9A-089B68612E90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9705D194-5B85-4BA1-8E9A-089B68612E90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9705D194-5B85-4BA1-8E9A-089B68612E90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4E56C04-E938-46E2-8034-FB5C6E7ED925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4E56C04-E938-46E2-8034-FB5C6E7ED925}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4E56C04-E938-46E2-8034-FB5C6E7ED925}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4E56C04-E938-46E2-8034-FB5C6E7ED925}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
