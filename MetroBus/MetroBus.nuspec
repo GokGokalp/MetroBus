@@ -12,7 +12,7 @@
     <copyright>Copyright 2017 Gökhan Gökalp</copyright>
     <tags>MassTransit, RabbitMQ, Messaging, Publish Subscribe, Request/Response</tags>
     <dependencies>
-      <dependency id="MassTransit.RabbitMQ" version="3.5.5" />
+      <dependency id="MassTransit.RabbitMQ" version="3.5.7" />
     </dependencies>
   </metadata>
     <files>
