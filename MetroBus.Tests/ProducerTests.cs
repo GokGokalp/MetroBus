@@ -9,7 +9,6 @@ namespace MetroBus.Tests
     [TestClass]
     public class ProducerTests
     {
-        private ISendEndpoint _producerEndpoint;
         private string _rabbitMqUri;
         private string _rabbitMqUserName;
         private string _rabbitMqPassword;
@@ -25,16 +24,32 @@ namespace MetroBus.Tests
         }
 
         [TestMethod]
-        public async Task Send_WithFooCommand_SendQueue()
+        public async Task Send_WithCreateFooCommand_SendQueue()
         {
             //Arrange
-            _producerEndpoint = await MetroBusInitializer.Instance.UseRabbitMq(_rabbitMqUri, _rabbitMqUserName, _rabbitMqPassword)
-                                    .InitializeProducer(_queueName);
+            ISendEndpoint producerEndpoint =
+                await
+                    MetroBusInitializer.Instance.UseRabbitMq(_rabbitMqUri, _rabbitMqUserName, _rabbitMqPassword)
+                        .InitializeProducer(_queueName);
 
             //Act
-            await _producerEndpoint.Send<IFooCommandContract>(new
+            await producerEndpoint.Send<ICreateFooCommand>(new
             {
-                Message = "Say hello!"
+                Message = "Create me!"
+            });
+        }
+
+        [TestMethod]
+        public async Task Publish_WithFooCreatedEvent_PublishEventToExchange()
+        {
+            //Arrange
+            IBusControl busControl = MetroBusInitializer.Instance.UseRabbitMq(_rabbitMqUri, _rabbitMqUserName, _rabbitMqPassword)
+                                     .Build();
+
+            //Act
+            await busControl.Publish<IFooCreatedEvent>(new
+            {
+                Id = 1
             });
         }
     }

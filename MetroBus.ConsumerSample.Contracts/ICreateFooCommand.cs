@@ -1,6 +1,6 @@
 ﻿namespace MetroBus.ConsumerSample.Contracts
 {
-    public interface IFooCommandContract
+    public interface ICreateFooCommand
     {
         string Message { get; set; }
     }
