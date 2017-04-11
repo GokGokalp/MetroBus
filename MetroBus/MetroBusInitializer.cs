@@ -115,6 +115,11 @@ namespace MetroBus
                                                                  TimeSpan.FromSeconds(requestTimeoutFromSeconds ?? _defaultRequestTimeoutFromSeconds));
         }
 
+        public IBusControl Build()
+        {
+            return _bus;
+        }
+
         public async Task<BusHandle> Start()
         {
             return await _bus.StartAsync();

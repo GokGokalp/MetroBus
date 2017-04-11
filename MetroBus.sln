@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{6C09B441-6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBus.Tests", "MetroBus.Tests\MetroBus.Tests.csproj", "{B4E56C04-E938-46E2-8034-FB5C6E7ED925}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBus.ConsumerSample", "MetroBus.ConsumerSample\MetroBus.ConsumerSample.csproj", "{814B5A16-1180-41A8-BA84-E3E0C1E13F4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBus.ConsumerSample.Contracts", "MetroBus.ConsumerSample.Contracts\MetroBus.ConsumerSample.Contracts.csproj", "{DE10FF61-F5F7-4D04-905E-A66257FEEF3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{B4E56C04-E938-46E2-8034-FB5C6E7ED925}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4E56C04-E938-46E2-8034-FB5C6E7ED925}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4E56C04-E938-46E2-8034-FB5C6E7ED925}.Release|Any CPU.Build.0 = Release|Any CPU
+		{814B5A16-1180-41A8-BA84-E3E0C1E13F4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{814B5A16-1180-41A8-BA84-E3E0C1E13F4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{814B5A16-1180-41A8-BA84-E3E0C1E13F4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{814B5A16-1180-41A8-BA84-E3E0C1E13F4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE10FF61-F5F7-4D04-905E-A66257FEEF3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE10FF61-F5F7-4D04-905E-A66257FEEF3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE10FF61-F5F7-4D04-905E-A66257FEEF3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE10FF61-F5F7-4D04-905E-A66257FEEF3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
