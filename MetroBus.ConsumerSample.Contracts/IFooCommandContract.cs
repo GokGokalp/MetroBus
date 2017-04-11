@@ -1,4 +1,4 @@
-﻿namespace MetroBus.Tests
+﻿namespace MetroBus.ConsumerSample.Contracts
 {
     public interface IFooCommandContract
     {

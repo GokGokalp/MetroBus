@@ -48,10 +48,13 @@ using for **Consumer**:
 ```cs
 static void Main(string[] args)
 {
-	BusHandle bus = MetroBusInitializer.Instance.UseRabbitMq(string rabbitMqUri, string rabbitMqUserName, string rabbitMqPassword)
+	IBusControl bus = MetroBusInitializer.Instance.UseRabbitMq(string rabbitMqUri, string rabbitMqUserName, string rabbitMqPassword)
 							.InitializeConsumer<TCommandConsumer>(string queueName)
 							// or .InitializeConsumer(string queueName, () => new TCommandConsumer())
-							.Start();
+							.Build();
+
+	bus.Start();
+
 	//if you want to stop
 	bus.Stop();
 
