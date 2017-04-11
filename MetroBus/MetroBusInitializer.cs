@@ -117,6 +117,11 @@ namespace MetroBus
 
         public IBusControl Build()
         {
+            if (_bus == null)
+            {
+                _bus = CreateBus();
+            }
+
             return _bus;
         }
 

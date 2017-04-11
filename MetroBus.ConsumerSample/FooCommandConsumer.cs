@@ -5,9 +5,9 @@ using MetroBus.ConsumerSample.Contracts;
 
 namespace MetroBus.ConsumerSample
 {
-    public class FooCommandConsumer : IConsumer<IFooCommandContract>
+    public class FooCommandConsumer : IConsumer<ICreateFooCommand>
     {
-        public async Task Consume(ConsumeContext<IFooCommandContract> context)
+        public async Task Consume(ConsumeContext<ICreateFooCommand> context)
         {
             var command = context.Message;
 
