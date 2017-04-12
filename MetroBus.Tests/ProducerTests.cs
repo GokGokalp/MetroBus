@@ -52,5 +52,20 @@ namespace MetroBus.Tests
                 Id = 1
             });
         }
+
+        [TestMethod]
+        public async Task RequestResponse_WithCreateFooRequest_CreateFooAndReturnCreateFooResponse()
+        {
+            //Arrange
+            IRequestClient<ICreateFooRequest, ICreateFooResponse> client = MetroBusInitializer.Instance
+                                                    .UseRabbitMq(_rabbitMqUri, _rabbitMqUserName, _rabbitMqPassword)
+                                                    .InitializeRequestClient<ICreateFooRequest, ICreateFooResponse>(_queueName);
+
+            //Act
+            ICreateFooResponse response = await client.Request(new CreateFooRequest
+            {
+                Message = "Create me now!"
+            });
+        }
     }
 }
