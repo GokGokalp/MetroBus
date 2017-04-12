@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateFooRequest.cs" />
+    <Compile Include="ICreateFooResponse.cs" />
+    <Compile Include="ICreateFooRequest.cs" />
     <Compile Include="IFooCreatedEvent.cs" />
     <Compile Include="ICreateFooCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
