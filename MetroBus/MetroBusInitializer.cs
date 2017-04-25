@@ -234,7 +234,7 @@ namespace MetroBus
                     quartzEndpoint = quartzEndpoint.Insert(0, "/");
                 }
 
-                cfg.UseMessageScheduler(new Uri(quartzEndpoint));
+                cfg.UseMessageScheduler(new Uri(string.Concat(quartzEndpoint, "quartz")));
             }
         }
         #endregion
