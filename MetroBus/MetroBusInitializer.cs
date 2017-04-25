@@ -28,6 +28,8 @@ namespace MetroBus
 
         private readonly int _defaultRequestTimeoutFromSeconds;
 
+        private bool _useMessageScheduler;
+
         private IBusControl _bus;
 
         private MetroBusInitializer()
@@ -72,6 +74,12 @@ namespace MetroBus
             _rabbitMqUserName = rabbitMqUserName;
             _rabbitMqPassword = rabbitMqPassword;
 
+            return this;
+        }
+
+        public MetroBusInitializer UseMessageScheduler()
+        {
+            _useMessageScheduler = true;
             return this;
         }
 
@@ -160,6 +168,7 @@ namespace MetroBus
                 UseCircuitBreaker(cfg);
                 UseRateLimiter(cfg);
                 UseIncrementalRetryPolicy(cfg);
+                UseMessageScheduler(cfg);
 
                 cfg.ReceiveEndpoint(host, queueName, e =>
                 {
@@ -212,6 +221,20 @@ namespace MetroBus
             if (_rateLimit != null && _rateLimiterInterval != null)
             {
                 cfg.UseRateLimit(_rateLimit.Value, TimeSpan.FromSeconds(_rateLimiterInterval.Value));
+            }
+        }
+
+        private void UseMessageScheduler(IRabbitMqBusFactoryConfigurator cfg)
+        {
+            if (_useMessageScheduler)
+            {
+                string quartzEndpoint = _rabbitMqUri;
+                if (!quartzEndpoint.EndsWith("/"))
+                {
+                    quartzEndpoint = quartzEndpoint.Insert(0, "/");
+                }
+
+                cfg.UseMessageScheduler(new Uri(quartzEndpoint));
             }
         }
         #endregion
