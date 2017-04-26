@@ -120,3 +120,5 @@ There are several options you can set via fluent interface:
 - `.UseIncrementalRetryPolicy(int retryLimit, int initialIntervalFromMinute, int intervalIncrementFromMinute, params Exception[] retryOnSpecificExceptionType)`
 - `.UseCircuitBreaker(int tripThreshold, int activeThreshold, int resetInterval)`
 - `.UseRateLimiter(int rateLimit, int interval)`
+- `.UseMessageScheduler()`
+- `.UseDelayedExchangeMessageScheduler()`
