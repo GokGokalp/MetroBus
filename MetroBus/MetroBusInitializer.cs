@@ -29,6 +29,7 @@ namespace MetroBus
         private readonly int _defaultRequestTimeoutFromSeconds;
 
         private bool _useMessageScheduler;
+        private bool _useDelayedExchangeMessageScheduler;
 
         private IBusControl _bus;
 
@@ -80,6 +81,12 @@ namespace MetroBus
         public MetroBusInitializer UseMessageScheduler()
         {
             _useMessageScheduler = true;
+            return this;
+        }
+
+        public MetroBusInitializer UseDelayedExchangeMessageScheduler()
+        {
+            _useDelayedExchangeMessageScheduler = true;
             return this;
         }
 
@@ -169,6 +176,7 @@ namespace MetroBus
                 UseRateLimiter(cfg);
                 UseIncrementalRetryPolicy(cfg);
                 UseMessageScheduler(cfg);
+                UseDelayedExchangeMessageScheduler(cfg);
 
                 cfg.ReceiveEndpoint(host, queueName, e =>
                 {
@@ -237,6 +245,15 @@ namespace MetroBus
                 cfg.UseMessageScheduler(new Uri(string.Concat(quartzEndpoint, "quartz")));
             }
         }
+
+        private void UseDelayedExchangeMessageScheduler(IRabbitMqBusFactoryConfigurator cfg)
+        {
+            if (_useDelayedExchangeMessageScheduler)
+            {
+                cfg.UseDelayedExchangeMessageScheduler();
+            }
+        }
+
         #endregion
     }
 }
