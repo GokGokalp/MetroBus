@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreateFooRequest.cs" />
+    <Compile Include="FooCreatedEvent.cs" />
     <Compile Include="ICreateFooResponse.cs" />
     <Compile Include="ICreateFooRequest.cs" />
     <Compile Include="IFooCreatedEvent.cs" />
