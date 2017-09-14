@@ -13,13 +13,13 @@ Lightweight messaging wrapper of _MassTransit_
 PM> Install-Package MetroBus 
 ```
 
-####Features:
-- Currently only support RabbitMQ transport
-- Provide easily create **Producer** and **Consumer** for Pub/Sub
-- Provide easily  **Request/Response** conversation
-- Include incremental auto retry policy
-- Include circuit breaker
-- Include rate limiter
+#### Features:
+- Currently only supports RabbitMQ transport
+- Provides easy way to create **Producer** and **Consumer** for Pub/Sub
+- Provides easy way to handle **Request/Response** conversations
+- Includes optional incremental auto retry policy
+- Includes optional circuit breaker
+- Includes optional rate limiter
 
 Usage:
 -----

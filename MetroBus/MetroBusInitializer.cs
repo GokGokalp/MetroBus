@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using GreenPipes;
 using MassTransit;
@@ -32,6 +33,7 @@ namespace MetroBus
         private bool _useDelayedExchangeMessageScheduler;
 
         private IBusControl _bus;
+        private List<Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost>> _beforeBuildActions = new List<Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost>>();
 
         private MetroBusInitializer()
         {
@@ -68,8 +70,7 @@ namespace MetroBus
             return this;
         }
 
-        public MetroBusInitializer UseRabbitMq(string rabbitMqUri, string rabbitMqUserName,
-            string rabbitMqPassword)
+        public MetroBusInitializer UseRabbitMq(string rabbitMqUri, string rabbitMqUserName, string rabbitMqPassword)
         {
             _rabbitMqUri = rabbitMqUri;
             _rabbitMqUserName = rabbitMqUserName;
@@ -90,23 +91,31 @@ namespace MetroBus
             return this;
         }
 
-        public MetroBusInitializer InitializeConsumer<TConsumer>(string queueName) where TConsumer : class, IConsumer, new()
+        public MetroBusInitializer RegisterConsumer<TConsumer>(string queueName, Func<TConsumer> resolveFunction = null) where TConsumer : class, IConsumer, new()
         {
-            _bus = CreateBusForConsumer<TConsumer>(queueName);
+            Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>
+            {
+                cfg.ReceiveEndpoint(host, queueName, e =>
+                {
+                    if (resolveFunction != null)
+                    {
+                        e.Consumer(resolveFunction);
+                    }
+                    else
+                    {
+                        e.Consumer<TConsumer>();
+                    }
+                });
+            };
 
-            return this;
-        }
-
-        public MetroBusInitializer InitializeConsumer<TConsumer>(string queueName, Func<TConsumer> consumer) where TConsumer : class, IConsumer, new()
-        {
-            _bus = _bus = CreateBusForConsumer(queueName, consumer);
+            _beforeBuildActions.Add(action);
 
             return this;
         }
 
         public async Task<ISendEndpoint> InitializeProducer(string queueName)
         {
-            _bus = CreateBus();
+            _bus = Build();
 
             if (!_rabbitMqUri.EndsWith("/"))
             {
@@ -118,11 +127,10 @@ namespace MetroBus
             return await _bus.GetSendEndpoint(sendToUri);
         }
 
-        public IRequestClient<TRequest, TResponse> InitializeRequestClient<TRequest, TResponse>(string address,
-            int? requestTimeoutFromSeconds = null) where TRequest : class
+        public IRequestClient<TRequest, TResponse> InitializeRequestClient<TRequest, TResponse>(string address, int? requestTimeoutFromSeconds = null) where TRequest : class
                                                    where TResponse : class
         {
-            IBusControl bus = CreateBus();
+            IBusControl bus = Build();
             var serviceAddress = new Uri($"loopback://{address}");
 
             return new MessageRequestClient<TRequest, TResponse>(bus,
@@ -132,12 +140,25 @@ namespace MetroBus
 
         public IBusControl Build()
         {
-            if (_bus == null)
+            return Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
-                _bus = CreateBus();
-            }
+                var host = cfg.Host(new Uri(_rabbitMqUri), hst =>
+                {
+                    hst.Username(_rabbitMqUserName);
+                    hst.Password(_rabbitMqPassword);
+                });
 
-            return _bus;
+                foreach (Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action in _beforeBuildActions)
+                {
+                    action.Invoke(cfg, host);
+                }
+
+                UseCircuitBreaker(cfg);
+                UseRateLimiter(cfg);
+                UseIncrementalRetryPolicy(cfg);
+                UseMessageScheduler(cfg);
+                UseDelayedExchangeMessageScheduler(cfg);
+            });
         }
 
         public async Task<BusHandle> Start()
@@ -147,50 +168,6 @@ namespace MetroBus
         #endregion
 
         #region Private Methods
-
-        private IBusControl CreateBus()
-        {
-            _bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
-            {
-                var host = cfg.Host(new Uri(_rabbitMqUri), hst =>
-                {
-                    hst.Username(_rabbitMqUserName);
-                    hst.Password(_rabbitMqPassword);
-                });
-            });
-
-            return _bus;
-        }
-
-        private IBusControl CreateBusForConsumer<TConsumer>(string queueName, Func<TConsumer> consumer = null) where TConsumer : class, IConsumer, new()
-        {
-            return Bus.Factory.CreateUsingRabbitMq(cfg =>
-            {
-                var host = cfg.Host(new Uri(_rabbitMqUri), hst =>
-                {
-                    hst.Username(_rabbitMqUserName);
-                    hst.Password(_rabbitMqPassword);
-                });
-
-                UseCircuitBreaker(cfg);
-                UseRateLimiter(cfg);
-                UseIncrementalRetryPolicy(cfg);
-                UseMessageScheduler(cfg);
-                UseDelayedExchangeMessageScheduler(cfg);
-
-                cfg.ReceiveEndpoint(host, queueName, e =>
-                {
-                    if (consumer != null)
-                    {
-                        e.Consumer(consumer);
-                    }
-                    else
-                    {
-                        e.Consumer<TConsumer>();
-                    }
-                });
-            });
-        }
 
         private void UseIncrementalRetryPolicy(IRabbitMqBusFactoryConfigurator cfg)
         {
