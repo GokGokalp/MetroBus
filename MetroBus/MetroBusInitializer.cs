@@ -32,6 +32,8 @@ namespace MetroBus
         private bool _useMessageScheduler;
         private bool _useDelayedExchangeMessageScheduler;
 
+        private int? _useConcurrentConsumerLimit;
+
         private IBusControl _bus;
         private List<Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost>> _beforeBuildActions = new List<Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost>>();
 
@@ -91,6 +93,12 @@ namespace MetroBus
             return this;
         }
 
+        public MetroBusInitializer UseConcurrentConsumerLimit(int concurrencyLimit)
+        {
+            _useConcurrentConsumerLimit = concurrencyLimit;
+            return this;
+        }
+
         public MetroBusInitializer RegisterConsumer<TConsumer>(string queueName, Func<TConsumer> resolveFunction = null) where TConsumer : class, IConsumer, new()
         {
             Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>
@@ -104,6 +112,11 @@ namespace MetroBus
                     else
                     {
                         e.Consumer<TConsumer>();
+                    }
+
+                    if (_useConcurrentConsumerLimit != null)
+                    {
+                        e.UseConcurrencyLimit(_useConcurrentConsumerLimit.Value);
                     }
                 });
             };
