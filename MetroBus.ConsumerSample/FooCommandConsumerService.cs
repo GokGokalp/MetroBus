@@ -29,12 +29,13 @@ namespace MetroBus.ConsumerSample
             {
                 Id = 5
             });
-            _consumerBusControl.Start();
+
+            await _consumerBusControl.StartAsync();
         }
 
         public async void Stop()
         {
-            _consumerBusControl.Stop();
+            await _consumerBusControl.StopAsync();
         }
     }
 }
