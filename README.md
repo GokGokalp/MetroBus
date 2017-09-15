@@ -48,15 +48,16 @@ using for **Consumer**:
 ```cs
 static void Main(string[] args)
 {
-	IBusControl bus = MetroBusInitializer.Instance.UseRabbitMq(string rabbitMqUri, string rabbitMqUserName, string rabbitMqPassword)
-							.InitializeConsumer<TCommandConsumer>(string queueName)
-							// or .InitializeConsumer(string queueName, () => new TCommandConsumer())
-							.Build();
+	IBusControl bus = MetroBusInitializer.Instance
+                        .UseRabbitMq(string rabbitMqUri, string rabbitMqUserName, string rabbitMqPassword)
+                        .RegisterConsumer<TCommandConsumer>(string queueName)
+                        .RegisterConsumer<TCommandConsumer2>(string queueName)
+                        .Build();
 
-	bus.Start();
+	bus.StartAsync();
 
 	//if you want to stop
-	bus.Stop();
+	bus.StopAsync();
 
 	Console.ReadLine();
 }
@@ -122,3 +123,4 @@ There are several options you can set via fluent interface:
 - `.UseRateLimiter(int rateLimit, int interval)`
 - `.UseMessageScheduler()`
 - `.UseDelayedExchangeMessageScheduler()`
+- `.UseConcurrentConsumerLimit(int concurrencyLimit)`
