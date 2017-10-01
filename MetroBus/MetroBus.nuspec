@@ -13,6 +13,7 @@
     <tags>MassTransit, RabbitMQ, Messaging, Publish Subscribe, Request/Response</tags>
     <dependencies>
       <dependency id="MassTransit.RabbitMQ" version="3.5.7" />
+      <dependency id="MassTransit.Autofac" version="3.5.7" />
     </dependencies>
   </metadata>
     <files>

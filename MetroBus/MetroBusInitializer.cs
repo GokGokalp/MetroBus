@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using GreenPipes;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
+using Autofac;
 
 namespace MetroBus
 {
@@ -113,6 +114,26 @@ namespace MetroBus
                     {
                         e.Consumer<TConsumer>();
                     }
+
+                    if (_useConcurrentConsumerLimit != null)
+                    {
+                        e.UseConcurrencyLimit(_useConcurrentConsumerLimit.Value);
+                    }
+                });
+            };
+
+            _beforeBuildActions.Add(action);
+
+            return this;
+        }
+
+        public MetroBusInitializer RegisterConsumer(string queueName, ILifetimeScope lifetimeScope)
+        {
+            Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>
+            {
+                cfg.ReceiveEndpoint(host, queueName, e =>
+                {
+                    e.LoadFrom(lifetimeScope);
 
                     if (_useConcurrentConsumerLimit != null)
                     {
