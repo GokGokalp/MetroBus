@@ -19,7 +19,7 @@ namespace MetroBus.ConsumerSample
                                     .UseRabbitMq(rabbitMqUri, rabbitMqUserName, rabbitMqPassword)
                                     .RegisterConsumer<FooCommandConsumer>("foo.create-queue")
                                     .RegisterConsumer<FirstFooCreatedEventConsumer>("foo-created.first-action-queue")
-                                    .RegisterConsumer<SecondFooCreatedEventConsumer>("foo-created.second-action-queue")
+                                    .RegisterConsumer("foo-created.second-action-queue", () => new SecondFooCreatedEventConsumer())
                                     .Build();
         }
 

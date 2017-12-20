@@ -100,20 +100,33 @@ namespace MetroBus
             return this;
         }
 
-        public MetroBusInitializer RegisterConsumer<TConsumer>(string queueName, Func<TConsumer> resolveFunction = null) where TConsumer : class, IConsumer, new()
+        public MetroBusInitializer RegisterConsumer<TConsumer>(string queueName) where TConsumer : class, IConsumer, new()
         {
             Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>
             {
                 cfg.ReceiveEndpoint(host, queueName, e =>
                 {
-                    if (resolveFunction != null)
+                    e.Consumer<TConsumer>();
+
+                    if (_useConcurrentConsumerLimit != null)
                     {
-                        e.Consumer(resolveFunction);
+                        e.UseConcurrencyLimit(_useConcurrentConsumerLimit.Value);
                     }
-                    else
-                    {
-                        e.Consumer<TConsumer>();
-                    }
+                });
+            };
+
+            _beforeBuildActions.Add(action);
+
+            return this;
+        }
+
+        public MetroBusInitializer RegisterConsumer(string queueName, Func<IConsumer> resolveFunction)
+        {
+            Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>
+            {
+                cfg.ReceiveEndpoint(host, queueName, e =>
+                {
+                    e.Consumer(resolveFunction);
 
                     if (_useConcurrentConsumerLimit != null)
                     {

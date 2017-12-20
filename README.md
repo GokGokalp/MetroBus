@@ -20,6 +20,7 @@ PM> Install-Package MetroBus
 - Includes optional incremental auto retry policy
 - Includes optional circuit breaker
 - Includes optional rate limiter
+- Autofac support
 
 Usage:
 -----
