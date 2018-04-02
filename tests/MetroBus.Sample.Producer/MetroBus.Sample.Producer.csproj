@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MetroBus.Autofac\MetroBus.Autofac.csproj" />
+    <ProjectReference Include="..\..\src\MetroBus.Core\MetroBus.Core.csproj" />
+    <ProjectReference Include="..\..\src\MetroBus\MetroBus.csproj" />
+    <ProjectReference Include="..\MetroBus.Sample.Contracts\MetroBus.Sample.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

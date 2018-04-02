@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>MetroBus</id>
-    <version>$version$</version>
-    <title>MetroBus</title>
+    <id>MetroBus.Autofac</id>
+    <version>1.0.0</version>
+    <title>MetroBus.Autofac</title>
     <authors>Gökhan Gökalp</authors>
     <owners>Gökhan Gökalp</owners>
     <projectUrl>https://github.com/GokGokalp/MetroBus</projectUrl>
@@ -12,11 +12,11 @@
     <copyright>Copyright 2017 Gökhan Gökalp</copyright>
     <tags>MassTransit, RabbitMQ, Messaging, Publish Subscribe, Request/Response</tags>
     <dependencies>
-      <dependency id="MassTransit.RabbitMQ" version="3.5.7" />
-      <dependency id="MassTransit.Autofac" version="3.5.7" />
+      <dependency id="MetroBus" version="2.0.0" />
+      <dependency id="MassTransit.Autofac" version="4.0.1" />
     </dependencies>
   </metadata>
     <files>
-    <file src="bin\Release\MetroBus.dll" exclude="bin\Release\*.dll.config" target="lib\net461\MetroBus.dll" />
+    <file src="bin\Release\netstandard2.0\MetroBus.Autofac.dll" exclude="bin\Release\netstandard2.0\*.dll.config" target="lib\netstandard2.0\MetroBus.Autofac.dll" />
   </files>
 </package>

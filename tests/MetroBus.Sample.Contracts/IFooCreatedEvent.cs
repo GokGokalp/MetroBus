@@ -1,4 +1,4 @@
-﻿namespace MetroBus.ConsumerSample.Contracts
+﻿namespace MetroBus.Sample.Contracts
 {
     public interface IFooCreatedEvent
     {
