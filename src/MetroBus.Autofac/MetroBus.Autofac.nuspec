@@ -18,5 +18,6 @@
   </metadata>
     <files>
     <file src="bin\Release\netstandard2.0\MetroBus.Autofac.dll" exclude="bin\Release\netstandard2.0\*.dll.config" target="lib\netstandard2.0\MetroBus.Autofac.dll" />
+    <file src="bin\Release\netstandard2.0\MetroBus.Core.dll" exclude="bin\Release\netstandard2.0\*.dll.config" target="lib\netstandard2.0\MetroBus.Core.dll" />
   </files>
 </package>
