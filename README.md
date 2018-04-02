@@ -10,13 +10,17 @@ Lightweight messaging wrapper of _MassTransit_
 
 ### NuGet Packages
 ``` 
-PM> Install-Package MetroBus 
+PM> Install-Package MetroBus
 ```
+
+#### Supports:
+- .NET Standard 2.0
 
 #### Features:
 - Currently only supports RabbitMQ transport
 - Provides easy way to create **Producer** and **Consumer** for Pub/Sub
 - Provides easy way to handle **Request/Response** conversations
+- Provides message scheduling
 - Includes optional incremental auto retry policy
 - Includes optional circuit breaker
 - Includes optional rate limiter
@@ -28,23 +32,33 @@ Usage:
 Initializing bus instance for **Producer**:
 
 ```cs
-ISendEndpoint bus = await MetroBusInitializer.Instance.UseRabbitMq(string rabbitMqUri, string rabbitMqUserName, string rabbitMqPassword)
-													.InitializeProducer(string queueName);
+// For events
+IBusControl bus = MetroBusInitializer.Instance.UseRabbitMq(rabbitMqUri, rabbitMqUserName, rabbitMqPassword)
+					.InitializeEventProducer();
+
+// For commands
+ISendEndpoint bus = MetroBusInitializer.Instance.UseRabbitMq(rabbitMqUri, rabbitMqUserName, rabbitMqPassword)
+                    .InitializeCommandProducer(queueName);
 ```
 
-
-after bus instance initializing then you can use _Send_ method with your queues channel _TCommand_ type.
+after bus instance initializing then you can use _Send_ or _Publish_ methods.
 
 ```cs
-bus.Send<TCommand>(new
-			{
-				SomeProperty = SomeValue
-			}
-		);
+// For events
+await bus.Publish<TEvent>(new
+{
+    SomeProperty = SomeValue
+}));
+
+// For commands
+await bus.Send<TCommand>(new
+{
+    SomeProperty = SomeValue
+}));
 ```
 
 
-using for **Consumer**:
+using **Consumer**:
 
 ```cs
 static void Main(string[] args)
@@ -52,13 +66,13 @@ static void Main(string[] args)
 	IBusControl bus = MetroBusInitializer.Instance
                         .UseRabbitMq(string rabbitMqUri, string rabbitMqUserName, string rabbitMqPassword)
                         .RegisterConsumer<TCommandConsumer>(string queueName)
-                        .RegisterConsumer<TCommandConsumer2>(string queueName)
+                        .RegisterConsumer<TEventConsumer>(string queueName)
                         .Build();
 
-	bus.StartAsync();
+	bus.Start();
 
 	//if you want to stop
-	bus.StopAsync();
+	bus.Stop();
 
 	Console.ReadLine();
 }
@@ -114,14 +128,13 @@ public class TCommandConsumer : IConsumer<TRequest>
 ```
 
 
-**PS**: **Publisher** and **Consumer** services must be used same _TCommand_ interface. This is important for MassTransit integration. Also one other thing is _rabbitMqUri_ parameter must start with "rabbitmq://" prefix.
+**PS**: **Publisher** and **Consumer** services must be used same _TCommand_ or _TEvent_ interfaces. This is important for MassTransit integration. Also one other thing is _rabbitMqUri_ parameter must start with "rabbitmq://" prefix.
 
 
 There are several options you can set via fluent interface:
-
-- `.UseIncrementalRetryPolicy(int retryLimit, int initialIntervalFromMinute, int intervalIncrementFromMinute, params Exception[] retryOnSpecificExceptionType)`
-- `.UseCircuitBreaker(int tripThreshold, int activeThreshold, int resetInterval)`
-- `.UseRateLimiter(int rateLimit, int interval)`
+- `.UseRetryPolicy().UseIncrementalRetryPolicy(int retryLimit, TimeSpan? initialIntervalTime, TimeSpan? intervalIncrementTime, params Exception[] retryOnSpecificExceptionType).Then()`
+- `.UseCircuitBreaker(int tripThreshold, int activeThreshold, TimeSpan? resetInterval)`
+- `.UseRateLimiter(int rateLimit, TimeSpan? interval)`
 - `.UseMessageScheduler()`
 - `.UseDelayedExchangeMessageScheduler()`
 - `.UseConcurrentConsumerLimit(int concurrencyLimit)`

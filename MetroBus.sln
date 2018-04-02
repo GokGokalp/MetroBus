@@ -13,9 +13,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{46FDF466-9E9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6DBF250B-5DD4-499B-A188-1295A473046F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBus.Sample.Contracts", "tests\MetroBus.Sample.Contracts\MetroBus.Sample.Contracts.csproj", "{65BA8B13-77B6-41A0-B8B7-A82B0640DEF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetroBus.Sample.Contracts", "tests\MetroBus.Sample.Contracts\MetroBus.Sample.Contracts.csproj", "{65BA8B13-77B6-41A0-B8B7-A82B0640DEF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBus.Sample.Producer", "tests\MetroBus.Sample.Producer\MetroBus.Sample.Producer.csproj", "{11474E5B-7387-4D5A-9707-673793E4023D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetroBus.Sample.Producer", "tests\MetroBus.Sample.Producer\MetroBus.Sample.Producer.csproj", "{11474E5B-7387-4D5A-9707-673793E4023D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBus.Sample.Consumer", "tests\MetroBus.Sample.Consumer\MetroBus.Sample.Consumer.csproj", "{486BCE2B-A7DC-4535-91A6-5C544D28CB32}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A065763A-34D9-4FCD-86D5-6524C878813E}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +53,10 @@ Global
 		{11474E5B-7387-4D5A-9707-673793E4023D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11474E5B-7387-4D5A-9707-673793E4023D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11474E5B-7387-4D5A-9707-673793E4023D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{486BCE2B-A7DC-4535-91A6-5C544D28CB32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{486BCE2B-A7DC-4535-91A6-5C544D28CB32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{486BCE2B-A7DC-4535-91A6-5C544D28CB32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{486BCE2B-A7DC-4535-91A6-5C544D28CB32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +67,7 @@ Global
 		{98E4B6F9-55F2-44DE-AEB7-F0074A4E31C6} = {46FDF466-9E91-462F-AF4D-08598CD80187}
 		{65BA8B13-77B6-41A0-B8B7-A82B0640DEF9} = {6DBF250B-5DD4-499B-A188-1295A473046F}
 		{11474E5B-7387-4D5A-9707-673793E4023D} = {6DBF250B-5DD4-499B-A188-1295A473046F}
+		{486BCE2B-A7DC-4535-91A6-5C544D28CB32} = {6DBF250B-5DD4-499B-A188-1295A473046F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0A598B0-5DC0-4A0C-9CD7-43271329365E}

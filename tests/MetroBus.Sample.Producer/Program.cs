@@ -8,7 +8,7 @@ namespace MetroBus.Sample.Producer
     {
         static void Main(string[] args)
         {
-            string rabbitMqUri = "";
+            string rabbitMqUri = "rabbitmq://localhost:5672";
             string rabbitMqUserName = "";
             string rabbitMqPassword = "";
 

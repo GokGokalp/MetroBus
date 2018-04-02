@@ -4,10 +4,10 @@ namespace MetroBus
 {
     public class RetryPolicies
     {
-        public Exception[] RetryOnSpecificExceptionTypes { get; set; }
-        public int? RetryLimit { get; set; }
-        public TimeSpan? InitialRetryIntervalTime { get; set; }
-        public TimeSpan? IntervalRetryIncrementTime { get; set; }
+        internal Exception[] RetryOnSpecificExceptionTypes { get; set; }
+        internal int? RetryLimit { get; set; }
+        internal TimeSpan? InitialRetryIntervalTime { get; set; }
+        internal TimeSpan? IntervalRetryIncrementTime { get; set; }
 
         #region Fluent Methods
         public RetryPolicies UseIncrementalRetryPolicy(int retryLimit, TimeSpan initialIntervalTime, TimeSpan intervalIncrementTime, params Exception[] retryOnSpecificExceptionType)

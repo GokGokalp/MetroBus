@@ -81,24 +81,18 @@ namespace MetroBus
             return this;
         }
 
-        public MetroBusInitializer RegisterConsumer<TConsumer>(string queueName) where TConsumer : class, IConsumer, new()
+        public MetroBusInitializer RegisterConsumer<TConsumer>(string queueName = null) where TConsumer : class, IConsumer, new()
         {
             Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>
             {
-                cfg.ReceiveEndpoint(host, queueName, e =>
+                if (queueName == null)
                 {
-                    if (MetroBusConfiguration.UseConcurrentConsumerLimit != null)
-                    {
-                        e.UseConcurrencyLimit(MetroBusConfiguration.UseConcurrentConsumerLimit.Value);
-                    }
-
-                    if (MetroBusConfiguration.PrefetchCount != null)
-                    {
-                        e.PrefetchCount = MetroBusConfiguration.PrefetchCount.Value;
-                    }
-
-                    e.Consumer<TConsumer>();
-                });
+                    cfg.ReceiveEndpoint(host, ConfigureReceiveEndpoint<TConsumer>());
+                }
+                else
+                {
+                    cfg.ReceiveEndpoint(host, queueName, ConfigureReceiveEndpoint<TConsumer>());
+                }
             };
 
             MetroBusConfiguration.BeforeBuildActions.Add(action);
@@ -106,24 +100,18 @@ namespace MetroBus
             return this;
         }
 
-        public MetroBusInitializer RegisterConsumer(string queueName, Func<IConsumer> resolveFunction)
+        public MetroBusInitializer RegisterConsumer(Func<IConsumer> resolveFunction, string queueName = null)
         {
             Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>
             {
-                cfg.ReceiveEndpoint(host, queueName, e =>
+                if (queueName == null)
                 {
-                    if (MetroBusConfiguration.UseConcurrentConsumerLimit != null)
-                    {
-                        e.UseConcurrencyLimit(MetroBusConfiguration.UseConcurrentConsumerLimit.Value);
-                    }
-
-                    if (MetroBusConfiguration.PrefetchCount != null)
-                    {
-                        e.PrefetchCount = MetroBusConfiguration.PrefetchCount.Value;
-                    }
-
-                    e.Consumer(resolveFunction);
-                });
+                    cfg.ReceiveEndpoint(host, ConfigureReceiveEndpoint(resolveFunction));
+                }
+                else
+                {
+                    cfg.ReceiveEndpoint(host, queueName, ConfigureReceiveEndpoint(resolveFunction));
+                }
             };
 
             MetroBusConfiguration.BeforeBuildActions.Add(action);
@@ -150,6 +138,17 @@ namespace MetroBus
             _bus = Build();
 
             return _bus;
+        }
+
+        public IRequestClient<TRequest, TResponse> InitializeRequestClient<TRequest, TResponse>(string address, TimeSpan? requestTimeout = null) where TRequest : class
+                                           where TResponse : class
+        {
+            IBusControl bus = Build();
+            var serviceAddress = new Uri($"loopback://{address}");
+
+            return new MessageRequestClient<TRequest, TResponse>(bus,
+                                                                 serviceAddress,
+                                                                 requestTimeout ?? MetroBusConfiguration.DefaultRequestTimeoutTime);
         }
 
         public IBusControl Build()
@@ -182,6 +181,42 @@ namespace MetroBus
         #endregion
 
         #region Private Methods
+        private Action<IRabbitMqReceiveEndpointConfigurator> ConfigureReceiveEndpoint<TConsumer>() where TConsumer : class, IConsumer, new()
+        {
+            return _ =>
+            {
+                if (MetroBusConfiguration.UseConcurrentConsumerLimit != null)
+                {
+                    _.UseConcurrencyLimit(MetroBusConfiguration.UseConcurrentConsumerLimit.Value);
+                }
+
+                if (MetroBusConfiguration.PrefetchCount != null)
+                {
+                    _.PrefetchCount = MetroBusConfiguration.PrefetchCount.Value;
+                }
+
+                _.Consumer<TConsumer>();
+            };
+        }
+
+        private Action<IRabbitMqReceiveEndpointConfigurator> ConfigureReceiveEndpoint(Func<IConsumer> resolveFunction = null)
+        {
+            return _ =>
+            {
+                if (MetroBusConfiguration.UseConcurrentConsumerLimit != null)
+                {
+                    _.UseConcurrencyLimit(MetroBusConfiguration.UseConcurrentConsumerLimit.Value);
+                }
+
+                if (MetroBusConfiguration.PrefetchCount != null)
+                {
+                    _.PrefetchCount = MetroBusConfiguration.PrefetchCount.Value;
+                }
+
+                _.Consumer(resolveFunction);
+            };
+        }
+
 
         private void UseIncrementalRetryPolicy(IRabbitMqBusFactoryConfigurator cfg)
         {

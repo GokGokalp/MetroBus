@@ -12,25 +12,37 @@ namespace MetroBus.Autofac
         {
             Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>
             {
-                cfg.ReceiveEndpoint(host, queueName, e =>
+                if (queueName == null)
                 {
-                    if (instance.MetroBusConfiguration.UseConcurrentConsumerLimit != null)
-                    {
-                        e.UseConcurrencyLimit(instance.MetroBusConfiguration.UseConcurrentConsumerLimit.Value);
-                    }
-
-                    if (instance.MetroBusConfiguration.PrefetchCount != null)
-                    {
-                        e.PrefetchCount = instance.MetroBusConfiguration.PrefetchCount.Value;
-                    }
-
-                    e.LoadFrom(lifetimeScope);
-                });
+                    cfg.ReceiveEndpoint(host, ConfigureReceiveEndpoint(instance, lifetimeScope));
+                }
+                else
+                {
+                    cfg.ReceiveEndpoint(host, queueName, ConfigureReceiveEndpoint(instance, lifetimeScope));
+                }
             };
 
             instance.MetroBusConfiguration.BeforeBuildActions.Add(action);
 
             return instance;
+        }
+
+        private static Action<IRabbitMqReceiveEndpointConfigurator> ConfigureReceiveEndpoint(MetroBusInitializer instance, ILifetimeScope lifetimeScope)
+        {
+            return _ =>
+            {
+                if (instance.MetroBusConfiguration.UseConcurrentConsumerLimit != null)
+                {
+                    _.UseConcurrencyLimit(instance.MetroBusConfiguration.UseConcurrentConsumerLimit.Value);
+                }
+
+                if (instance.MetroBusConfiguration.PrefetchCount != null)
+                {
+                    _.PrefetchCount = instance.MetroBusConfiguration.PrefetchCount.Value;
+                }
+
+                _.LoadFrom(lifetimeScope);
+            };
         }
     }
 }
