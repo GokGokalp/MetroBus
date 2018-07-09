@@ -12,9 +12,9 @@
     <copyright>Copyright 2017 Gökhan Gökalp</copyright>
     <tags>MassTransit, RabbitMQ, Messaging, Publish Subscribe, Request/Response</tags>
     <dependencies>
-      <dependency id="MassTransit" version="4.0.1" />
-      <dependency id="MassTransit.RabbitMQ" version="4.0.1" />
-      <dependency id="GreenPipes" version="2.0.0" />
+      <dependency id="MassTransit" version="5.1.3" />
+      <dependency id="MassTransit.RabbitMQ" version="5.1.3" />
+      <dependency id="GreenPipes" version="2.1.1" />
       <dependency id="NewId" version="3.0.1" />
     </dependencies>
   </metadata>
