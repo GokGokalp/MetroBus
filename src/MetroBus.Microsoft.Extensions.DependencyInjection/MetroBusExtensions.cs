@@ -2,11 +2,20 @@
 using GreenPipes;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
+using Microsoft.Extensions.DependencyInjection;
+using MassTransit.ExtensionsDependencyInjectionIntegration;
 
 namespace MetroBus.Microsoft.Extensions.DependencyInjection
 {
     public static class MetroBusExtensions
     {
+        public static IServiceCollection AddMetroBus(this IServiceCollection serviceCollection, Action<IServiceCollectionConfigurator> configure = null)
+        {
+            serviceCollection.AddMassTransit(configure);
+            
+            return serviceCollection;
+        }
+
         public static MetroBusInitializer RegisterConsumer(this MetroBusInitializer instance, string queueName, IServiceProvider serviceProvider)
         {
             Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>

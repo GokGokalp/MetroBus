@@ -10,7 +10,9 @@ Lightweight messaging wrapper of _MassTransit_
 
 ### NuGet Packages
 ``` 
-PM> Install-Package MetroBus
+> dotnet add package MetroBus
+> dotnet add package MetroBus.Autofac
+> dotnet add package MetroBus.Microsoft.Extensions.DependencyInjection
 ```
 
 #### Supports:
@@ -25,6 +27,7 @@ PM> Install-Package MetroBus
 - Includes optional circuit breaker
 - Includes optional rate limiter
 - Autofac support
+- Microsoft.Extensions.DependencyInjection support
 
 Usage:
 -----
