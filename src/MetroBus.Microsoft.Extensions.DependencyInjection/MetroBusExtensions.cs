@@ -16,17 +16,17 @@ namespace MetroBus.Microsoft.Extensions.DependencyInjection
             return serviceCollection;
         }
 
-        public static MetroBusInitializer RegisterConsumer(this MetroBusInitializer instance, string queueName, IServiceProvider serviceProvider)
+        public static MetroBusInitializer RegisterConsumer<TEvent>(this MetroBusInitializer instance, string queueName, IServiceProvider serviceProvider) where TEvent : class
         {
             Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>
             {
-                if (queueName == null)
+                if (string.IsNullOrEmpty(queueName))
                 {
-                    cfg.ReceiveEndpoint(host, ConfigureReceiveEndpoint(instance, serviceProvider));
+                    cfg.ReceiveEndpoint(host, ConfigureReceiveEndpoint<TEvent>(instance, serviceProvider));
                 }
                 else
                 {
-                    cfg.ReceiveEndpoint(host, queueName, ConfigureReceiveEndpoint(instance, serviceProvider));
+                    cfg.ReceiveEndpoint(host, queueName, ConfigureReceiveEndpoint<TEvent>(instance, serviceProvider));
                 }
             };
 
@@ -35,7 +35,7 @@ namespace MetroBus.Microsoft.Extensions.DependencyInjection
             return instance;
         }
 
-        private static Action<IRabbitMqReceiveEndpointConfigurator> ConfigureReceiveEndpoint(MetroBusInitializer instance, IServiceProvider serviceProvider)
+        private static Action<IRabbitMqReceiveEndpointConfigurator> ConfigureReceiveEndpoint<TEvent>(MetroBusInitializer instance, IServiceProvider serviceProvider) where TEvent : class 
         {
             return _ =>
             {
@@ -50,6 +50,8 @@ namespace MetroBus.Microsoft.Extensions.DependencyInjection
                 }
 
                 _.LoadFrom(serviceProvider);
+
+                EndpointConvention.Map<TEvent>(_.InputAddress);
             };
         }
     }
