@@ -130,6 +130,49 @@ public class TCommandConsumer : IConsumer<TRequest>
 }
 ```
 
+using **Consumer** with Microsoft.Extensions.DependencyInjection:
+```cs
+new HostBuilder ()
+    .ConfigureServices ((hostContext, services) =>
+    {
+        services.AddMetroBus (x =>
+        {
+            x.AddConsumer<TCommandConsumer>();
+            x.AddConsumer<TEventConsumer>();
+        });
+
+        services.AddSingleton<IBusControl> (provider => MetroBusInitializer.Instance
+                .UseRabbitMq (string rabbitMqUri, string rabbitMqUserName, string rabbitMqPassword)
+                .RegisterConsumer<TCommandConsumer>("foo.command.queue", provider)
+                .RegisterConsumer<TEventConsumer>("foo.event.queue", provider)
+                .Build ())
+            .BuildServiceProvider ();
+
+        services.AddHostedService<BusService> ();
+    })
+    .RunConsoleAsync ().Wait ();
+
+
+public class BusService : IHostedService
+{
+    private readonly IBusControl _busControl;
+
+    public BusService(IBusControl busControl)
+    {
+        _busControl = busControl;
+    }
+
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        return _busControl.StartAsync(cancellationToken);
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        return _busControl.StopAsync(cancellationToken);
+    }
+}
+```
 
 **PS**: **Publisher** and **Consumer** services must be used same _TCommand_ or _TEvent_ interfaces. This is important for MassTransit integration. Also one other thing is _rabbitMqUri_ parameter must start with "rabbitmq://" prefix.
 
