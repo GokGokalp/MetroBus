@@ -16,7 +16,7 @@ namespace MetroBus.Microsoft.Extensions.DependencyInjection
             return serviceCollection;
         }
 
-        public static MetroBusInitializer RegisterConsumer<TEvent>(this MetroBusInitializer instance, string queueName, IServiceProvider serviceProvider) where TEvent : class
+        public static MetroBusInitializer RegisterConsumer<TEvent>(this MetroBusInitializer instance, string queueName, IServiceProvider serviceProvider) where TEvent : class, IConsumer
         {
             Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>
             {
@@ -35,7 +35,7 @@ namespace MetroBus.Microsoft.Extensions.DependencyInjection
             return instance;
         }
 
-        private static Action<IRabbitMqReceiveEndpointConfigurator> ConfigureReceiveEndpoint<TEvent>(MetroBusInitializer instance, IServiceProvider serviceProvider) where TEvent : class 
+        private static Action<IRabbitMqReceiveEndpointConfigurator> ConfigureReceiveEndpoint<TEvent>(MetroBusInitializer instance, IServiceProvider serviceProvider) where TEvent : class, IConsumer
         {
             return _ =>
             {
@@ -49,9 +49,7 @@ namespace MetroBus.Microsoft.Extensions.DependencyInjection
                     _.PrefetchCount = instance.MetroBusConfiguration.PrefetchCount.Value;
                 }
 
-                _.LoadFrom(serviceProvider);
-
-                EndpointConvention.Map<TEvent>(_.InputAddress);
+                _.Consumer<TEvent>(serviceProvider);
             };
         }
     }
