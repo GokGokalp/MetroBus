@@ -16,17 +16,17 @@ namespace MetroBus.Microsoft.Extensions.DependencyInjection
             return serviceCollection;
         }
 
-        public static MetroBusInitializer RegisterConsumer<TEvent>(this MetroBusInitializer instance, string queueName, IServiceProvider serviceProvider) where TEvent : class, IConsumer
+        public static MetroBusInitializer RegisterConsumer<TConsumer>(this MetroBusInitializer instance, string queueName, IServiceProvider serviceProvider) where TConsumer : class, IConsumer
         {
             Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>
             {
                 if (string.IsNullOrEmpty(queueName))
                 {
-                    cfg.ReceiveEndpoint(host, ConfigureReceiveEndpoint<TEvent>(instance, serviceProvider));
+                    cfg.ReceiveEndpoint(host, ConfigureReceiveEndpoint<TConsumer>(instance, serviceProvider));
                 }
                 else
                 {
-                    cfg.ReceiveEndpoint(host, queueName, ConfigureReceiveEndpoint<TEvent>(instance, serviceProvider));
+                    cfg.ReceiveEndpoint(host, queueName, ConfigureReceiveEndpoint<TConsumer>(instance, serviceProvider));
                 }
             };
 
@@ -35,7 +35,7 @@ namespace MetroBus.Microsoft.Extensions.DependencyInjection
             return instance;
         }
 
-        private static Action<IRabbitMqReceiveEndpointConfigurator> ConfigureReceiveEndpoint<TEvent>(MetroBusInitializer instance, IServiceProvider serviceProvider) where TEvent : class, IConsumer
+        private static Action<IRabbitMqReceiveEndpointConfigurator> ConfigureReceiveEndpoint<TConsumer>(MetroBusInitializer instance, IServiceProvider serviceProvider) where TConsumer : class, IConsumer
         {
             return _ =>
             {
@@ -49,7 +49,7 @@ namespace MetroBus.Microsoft.Extensions.DependencyInjection
                     _.PrefetchCount = instance.MetroBusConfiguration.PrefetchCount.Value;
                 }
 
-                _.Consumer<TEvent>(serviceProvider);
+                _.Consumer<TConsumer>(serviceProvider);
             };
         }
     }

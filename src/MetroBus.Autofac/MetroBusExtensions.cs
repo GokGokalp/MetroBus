@@ -8,17 +8,17 @@ namespace MetroBus.Autofac
 {
     public static class MetroBusExtensions
     {
-        public static MetroBusInitializer RegisterConsumer(this MetroBusInitializer instance, string queueName, ILifetimeScope lifetimeScope)
+        public static MetroBusInitializer RegisterConsumer<TConsumer>(this MetroBusInitializer instance, string queueName, ILifetimeScope lifetimeScope) where TConsumer : class, IConsumer
         {
             Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> action = (cfg, host) =>
             {
-                if (queueName == null)
+                if (string.IsNullOrEmpty(queueName))
                 {
-                    cfg.ReceiveEndpoint(host, ConfigureReceiveEndpoint(instance, lifetimeScope));
+                    cfg.ReceiveEndpoint(host, ConfigureReceiveEndpoint<TConsumer>(instance, lifetimeScope));
                 }
                 else
                 {
-                    cfg.ReceiveEndpoint(host, queueName, ConfigureReceiveEndpoint(instance, lifetimeScope));
+                    cfg.ReceiveEndpoint(host, queueName, ConfigureReceiveEndpoint<TConsumer>(instance, lifetimeScope));
                 }
             };
 
@@ -27,7 +27,7 @@ namespace MetroBus.Autofac
             return instance;
         }
 
-        private static Action<IRabbitMqReceiveEndpointConfigurator> ConfigureReceiveEndpoint(MetroBusInitializer instance, ILifetimeScope lifetimeScope)
+        private static Action<IRabbitMqReceiveEndpointConfigurator> ConfigureReceiveEndpoint<TConsumer>(MetroBusInitializer instance, ILifetimeScope lifetimeScope) where TConsumer : class, IConsumer
         {
             return _ =>
             {
@@ -41,7 +41,7 @@ namespace MetroBus.Autofac
                     _.PrefetchCount = instance.MetroBusConfiguration.PrefetchCount.Value;
                 }
 
-                _.LoadFrom(lifetimeScope);
+                _.Consumer<TConsumer>(lifetimeScope);
             };
         }
     }
