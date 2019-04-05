@@ -5,8 +5,10 @@
 
 Lightweight messaging wrapper of _MassTransit_
 
-[![Build status](https://ci.appveyor.com/api/projects/status/o39lu901yp69hkl0?svg=true)](https://ci.appveyor.com/project/GokGokalp/metrobus)
 [![NuGet version](https://badge.fury.io/nu/MetroBus.svg)](https://badge.fury.io/nu/MetroBus)
+[![NuGet version](https://badge.fury.io/nu/MetroBus.Core.svg)](https://badge.fury.io/nu/MetroBus.Core)
+[![NuGet version](https://badge.fury.io/nu/MetroBus.Autofac.svg)](https://badge.fury.io/nu/MetroBus.Autofac)
+[![NuGet version](https://badge.fury.io/nu/MetroBus.Microsoft.Extensions.DependencyInjection.svg)](https://badge.fury.io/nu/MetroBus.Microsoft.Extensions.DependencyInjection)
 
 ### NuGet Packages
 ``` 
