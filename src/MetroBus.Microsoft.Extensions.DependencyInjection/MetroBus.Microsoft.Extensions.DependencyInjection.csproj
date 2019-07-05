@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="5.1.5" />
+    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="5.5.2" />
     <PackageReference Include="MetroBus" Version="2.0.3" />
     <PackageReference Include="MetroBus.Core" Version="1.0.0" />
   </ItemGroup>

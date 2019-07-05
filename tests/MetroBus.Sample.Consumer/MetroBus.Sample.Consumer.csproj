@@ -6,9 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MetroBus.Core\MetroBus.Core.csproj" />
-    <ProjectReference Include="..\..\src\MetroBus\MetroBus.csproj" />
     <ProjectReference Include="..\MetroBus.Sample.Contracts\MetroBus.Sample.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MetroBus" Version="2.0.3" />
+    <PackageReference Include="MetroBus.Core" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
