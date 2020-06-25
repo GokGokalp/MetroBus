@@ -12,7 +12,15 @@
     <Copyright>Copyright 2018 Gökhan Gökalp</Copyright>
     <PackageTags>MassTransit, RabbitMQ, Messaging, Publish Subscribe, Request/Response, Autofac</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/GokGokalp/MetroBus/master/misc/metrobus-logo.png</PackageIconUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="MassTransit.Autofac" Version="5.1.5" />
