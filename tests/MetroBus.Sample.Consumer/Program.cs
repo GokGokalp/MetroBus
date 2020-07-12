@@ -12,10 +12,11 @@ namespace MetroBus.Sample.Consumer
             string rabbitMqPassword = "";
             string queueName = "foo.queue";
 
-            var busControl = MetroBusInitializer.Instance.UseRabbitMq(rabbitMqUri, rabbitMqUserName, rabbitMqPassword)
-             .RegisterConsumer<CreateFooCommandConsumer>(queueName)
-             .RegisterConsumer<FooCreatedEventConsumer>(null)
-             .Build();
+            var busControl = MetroBusInitializer.Instance
+                .UseRabbitMq(rabbitMqUri, rabbitMqUserName, rabbitMqPassword)
+                .RegisterConsumer<CreateFooCommandConsumer>(queueName)
+                .RegisterConsumer<FooCreatedEventConsumer>(null)
+                .Build();
 
             Console.WriteLine("Bus starting...");
             busControl.Start();

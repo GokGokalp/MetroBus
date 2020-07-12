@@ -18,8 +18,9 @@ namespace MetroBus.Sample.Producer
 
         public static void SendEvent(string rabbitMqUri, string rabbitMqUserName, string rabbitMqPassword)
         {
-            IBusControl busControl = MetroBusInitializer.Instance.UseRabbitMq(rabbitMqUri, rabbitMqUserName, rabbitMqPassword)
-                         .InitializeEventProducer();
+            IBusControl busControl = MetroBusInitializer.Instance
+                .UseRabbitMq(rabbitMqUri, rabbitMqUserName, rabbitMqPassword)
+                .InitializeEventProducer();
 
             TaskUtil.Await(busControl.Publish<IFooCreatedEvent>(new
             {
@@ -31,8 +32,9 @@ namespace MetroBus.Sample.Producer
         {
             string queueName = "foo.queue";
 
-            ISendEndpoint busControl = MetroBusInitializer.Instance.UseRabbitMq(rabbitMqUri, rabbitMqUserName, rabbitMqPassword)
-                         .InitializeCommandProducer(queueName);
+            ISendEndpoint busControl = MetroBusInitializer.Instance
+                .UseRabbitMq(rabbitMqUri, rabbitMqUserName, rabbitMqPassword)
+                .InitializeCommandProducer(queueName);
 
             TaskUtil.Await(busControl.Send<ICreateFooCommand>(new
             {
