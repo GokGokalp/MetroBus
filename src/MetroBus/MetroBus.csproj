@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>2.0.5</Version>
     <IsPackable>true</IsPackable>
     <PackageId>MetroBus</PackageId>
     <Authors>Gökhan Gökalp</Authors>
@@ -10,16 +11,13 @@
     <Description>Lightweight messaging wrapper of MassTransit</Description>
     <Copyright>Copyright 2018 Gökhan Gökalp</Copyright>
     <PackageTags>MassTransit, RabbitMQ, Messaging, Publish Subscribe, Request/Response</PackageTags>
-    <PackageIconUrl>https://raw.githubusercontent.com/GokGokalp/MetroBus/master/misc/metrobus-logo.png</PackageIconUrl>
+    <icon>../../misc/metrobus-logo.png</icon>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MassTransit" Version="5.5.6" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="5.5.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MetroBus.Core\MetroBus.Core.csproj" />
+    <PackageReference Include="MetroBus.Core" Version="1.0.2" />
   </ItemGroup>
 
 </Project>
