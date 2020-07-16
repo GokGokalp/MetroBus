@@ -12,7 +12,7 @@ namespace MetroBus.Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddMetroBus(this IServiceCollection serviceCollection, Action<IServiceCollectionConfigurator> configure = null)
         {
             serviceCollection.AddMassTransit(configure);
-            
+
             return serviceCollection;
         }
 
