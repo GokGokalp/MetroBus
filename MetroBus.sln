@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetroBus", "src\MetroBus\MetroBus.csproj", "{6E398ACA-D34E-4CA5-811B-65453E4B8A02}"
 EndProject
@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetroBus.Sample.Contracts",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetroBus.Sample.Producer", "tests\MetroBus.Sample.Producer\MetroBus.Sample.Producer.csproj", "{11474E5B-7387-4D5A-9707-673793E4023D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBus.Sample.Consumer", "tests\MetroBus.Sample.Consumer\MetroBus.Sample.Consumer.csproj", "{486BCE2B-A7DC-4535-91A6-5C544D28CB32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetroBus.Sample.Consumer", "tests\MetroBus.Sample.Consumer\MetroBus.Sample.Consumer.csproj", "{486BCE2B-A7DC-4535-91A6-5C544D28CB32}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A065763A-34D9-4FCD-86D5-6524C878813E}"
 	ProjectSection(SolutionItems) = preProject
@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBus.Microsoft.Extensions.DependencyInjection", "src\MetroBus.Microsoft.Extensions.DependencyInjection\MetroBus.Microsoft.Extensions.DependencyInjection.csproj", "{89DE4FCF-913A-454F-808B-5EF0B71031E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetroBus.Microsoft.Extensions.DependencyInjection", "src\MetroBus.Microsoft.Extensions.DependencyInjection\MetroBus.Microsoft.Extensions.DependencyInjection.csproj", "{89DE4FCF-913A-454F-808B-5EF0B71031E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
